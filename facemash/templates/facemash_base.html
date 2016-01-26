@@ -9,15 +9,12 @@
 </head>
 <body>
     <div class="banner" {% block banstyle %}{% endblock banstyle %}>
-        <h1><a href="{% url 'play' %}" style="color:#fff;">FACEMASH</a></h1>
+        <h1><a href="#" style="color:#fff;">FACEMASH</a></h1>
     </div>
     <div class="container" {% block constyle %}{% endblock constyle %}>
     {% block content %}
 
     {% endblock content %}
-    <ul class="nav">
-        {% block button %}<li><a class="cool-a" href="{% url 'ratings' %}">View ratings</a></li>{% endblock button %}
-    </ul>
     </div>
     <hr />
     <div class="footer">

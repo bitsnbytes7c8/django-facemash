@@ -4,16 +4,16 @@
         <div class="container" style="padding-top: 0px;margin-bottom:30px;">
     {% if error %}
         <h2> You haven't added any players yet</h2>
-        <h3> Visit admin site and add at least 2 players to start facemash</h3>
+        <h3> <a href="{% url 'add_facemash' gameid %}"> Click here </a> and add at least 2 players to start facemash</h3>
     {% else %}
+        <h3>{{gametitle}}</h3>
         <div class="main-info">
-        <h3>Were we let in for our looks? No. Will we be judged on them? Yes.</h3>
-        <h2>Who's Hotter? Click to Choose.</h2>
+        <h2>Click to Choose.</h2>
         <strong>Or hit <span id="LeftArrow" class="arrowkey arrow-shadow">&larr;</span> Left or Right
         <span id="RightArrow" class="arrowkey arrow-shadow">&rarr;</span> arrow-keys</strong>
         </div>
         <div class="pic-size">
-            <a id="LeftImage" href="{% url 'calculator' contestant_1.id contestant_2.id %}" class="photo-holder">
+            <a id="LeftImage" href="{% url 'calculator' contestant_1.id contestant_2.id gameid %}" class="photo-holder">
                 <img src="{{ MEDIA_URL }}{{ contestant_1.photo }}" />
                 <p style="text-align:center;">{{ contestant_1.name }}</p>
             </a>
@@ -23,7 +23,7 @@
             <strong>OR</strong>
         </div>
         <div class="pic-size">
-            <a id="RightImage" href="{% url 'calculator' contestant_2.id contestant_1.id %}" class="photo-holder">
+            <a id="RightImage" href="{% url 'calculator' contestant_2.id contestant_1.id gameid %}" class="photo-holder">
                 <img src="{{ MEDIA_URL }}{{ contestant_2.photo }}" />
                 <p style="text-align:center;">{{ contestant_2.name }}</p>
             </a>
@@ -32,7 +32,7 @@
     </div>
     {% endblock content %}
     <ul class="nav">
-        {% block button %}<li><a class="cool-a" href="{% url 'ratings' %}">View ratings</a></li>{% endblock button %}
+        {% block button %}<li><a class="cool-a" href="{% url 'ratings' gameid %}">View ratings</a></li>{% endblock button %}
     </ul>
     </div>
     <hr />

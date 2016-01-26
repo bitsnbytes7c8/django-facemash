@@ -37,22 +37,24 @@ def add_facemash(request, game_id):
     args = {'form' : form}
     return render(request, 'add_facemash.html', args)
 
-def play(request):
+def play(request, gameid):
     """ The main-page view of facemash app. """
     try:
-        contestants = FaceMash.objects.all()
+        game = Game.objects.get(pk=int(gameid))
+        gametitle = game.title;
+        contestants = game.facemash_set.all();
         contestant_1 = random.choice(contestants)
         contestant_2 = random.choice(contestants)
         # A while loop to ensure that the contestants aren't same.
         while contestant_1 == contestant_2:
             contestant_2 = random.choice(contestants)
-        args = {'contestant_1': contestant_1, 'contestant_2': contestant_2}
+        args = {'contestant_1': contestant_1, 'contestant_2': contestant_2, 'gameid':gameid, 'gametitle':gametitle}
     except IndexError:
         error = True
-        args = {'error': error}
+        args = {'error': error, 'gameid':gameid}
     return render(request, 'facemash.html', args)
 
-def ratings_calculator(request, winner_id, loser_id):
+def ratings_calculator(request, winner_id, loser_id, gameid):
     """
     This view is the HEART of facemash app. This is where all the calculations
     for the ratings are done. This is where the algorithm is.
@@ -195,13 +197,13 @@ def ratings_calculator(request, winner_id, loser_id):
         w.save()
         l.save()
         # Redirect back to the Play page
-        return HttpResponseRedirect('/facemash/play')
+        return HttpResponseRedirect('/facemash/play/' + str(gameid))
     except FaceMash.DoesNotExist:
         raise Http404
 
 
-def ratings_page(request):
+def ratings_page(request, gameid):
     """ The ratings-page view. """
-
-    faces = FaceMash.objects.all().order_by('-ratings')
-    return render(request, "ratings_page.html", {'faces' : faces})
+    game = Game.objects.get(pk=int(gameid))
+    faces = game.facemash_set.all().order_by('-ratings')
+    return render(request, "ratings_page.html", {'faces' : faces, 'gameid' : gameid})

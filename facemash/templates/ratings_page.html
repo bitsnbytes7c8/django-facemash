@@ -16,7 +16,7 @@
 	<div class="info">
 		<strong>How ratings are calculated</strong><br />
 		<small>Ratings are calculated using the <strong>Glicko-2 Algorithm</strong>.<br />
-		Each new player is given a base rating <em>r</em> of 1500, rating deviation, <em>RD</em> of 350 and volatility <em>&sigma;</em> of 0.06. 
+		Each new player is given a base rating <em>r</em> of 1500, rating deviation, <em>RD</em> of 350 and volatility <em>&sigma;</em> of 0.06.
 		The system constant <em>&tau;</em> is set to 0.5 and it is also made sure that the <em>RD</em> of any player would never go below
 		30.<hr />
 		See the links below to learn more about Glicko-2 rating system:<br />
@@ -26,4 +26,4 @@
 		<br />
 	</div>
 {% endblock content %}
-{% block button %}<a class="cool-b" href="{% url 'play' %}">&larr; Go back and play facemash</a>{% endblock button %}
+{% block button %}<a class="cool-b" href="{% url 'play' gameid %}">&larr; Go back and play facemash</a>{% endblock button %}
