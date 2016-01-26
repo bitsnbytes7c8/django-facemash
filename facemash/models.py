@@ -1,5 +1,14 @@
 from django.db import models
 
+class Game(models.Model):
+
+    title = models.CharField(max_length=100);
+
+    class meta:
+        verbose_name_plural = 'Facemash game'
+
+    def __unicode__(self):
+        return self.title
 
 class FaceMash(models.Model):
     """
@@ -9,6 +18,7 @@ class FaceMash(models.Model):
     of GLicko-2 algorithm.
     """
 
+    game = models.ForeignKey(Game, null=True)
     name = models.CharField(max_length=10)
     photo = models.ImageField(upload_to="facemash_photos")
     ratings = models.FloatField(default=1500)

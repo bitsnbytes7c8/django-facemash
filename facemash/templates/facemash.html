@@ -1,4 +1,5 @@
 {% extends 'facemash_base.html' %}
+{% load staticfiles %}
     {% block content %}
         <div class="container" style="padding-top: 0px;margin-bottom:30px;">
     {% if error %}
@@ -8,7 +9,7 @@
         <div class="main-info">
         <h3>Were we let in for our looks? No. Will we be judged on them? Yes.</h3>
         <h2>Who's Hotter? Click to Choose.</h2>
-        <strong>Or hit <span id="LeftArrow" class="arrowkey arrow-shadow">&larr;</span> Left or Right 
+        <strong>Or hit <span id="LeftArrow" class="arrowkey arrow-shadow">&larr;</span> Left or Right
         <span id="RightArrow" class="arrowkey arrow-shadow">&rarr;</span> arrow-keys</strong>
         </div>
         <div class="pic-size">
@@ -42,7 +43,7 @@
 <!-- Include jQuery and following script for arrow-keys functionality -->
 {% block js %}
 
-    <script src="{{ STATIC_URL }}js/jquery.js"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
     <script type="text/javascript">
     $(document).ready(function() {
         $(document).keydown(function(event) {

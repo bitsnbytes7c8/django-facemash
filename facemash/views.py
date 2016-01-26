@@ -3,7 +3,22 @@ import math
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404
 from facemash.models import FaceMash
+from django.views.decorators.csrf import csrf_protect
+from facemash.forms import GameForm
+from facemash.models import Game
 
+@csrf_protect
+def create_game(request):
+    if request.method == 'POST':
+        form = GameForm(request.POST);
+        if form.is_valid():
+            game = Game.objects.create(
+                title = form.cleaned_data['title']
+            )
+            return HttpResponseRedirect('/create/success/' + str(game.id));
+    form = GameForm()
+    args = {'form' : form}
+    return render(request, 'create_game.html', args)
 
 def play(request):
     """ The main-page view of facemash app. """
@@ -18,7 +33,7 @@ def play(request):
     except IndexError:
         error = True
         args = {'error': error}
-    return render(request, 'facemash.html', args) 
+    return render(request, 'facemash.html', args)
 
 def ratings_calculator(request, winner_id, loser_id):
     """
@@ -173,4 +188,3 @@ def ratings_page(request):
 
     faces = FaceMash.objects.all().order_by('-ratings')
     return render(request, "ratings_page.html", {'faces' : faces})
-
