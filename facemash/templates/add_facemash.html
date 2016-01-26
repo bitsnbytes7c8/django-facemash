@@ -1,0 +1,12 @@
+{% extends 'facemash_base.html' %}
+
+{% block title %}Add FaceMash{% endblock %}
+{% block head %}Add FaceMash for Game{% endblock %}
+{% block content %}
+    <form enctype="multipart/form-data" method="post" action=".">{% csrf_token %}
+        <table border="0">
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Add" />
+    </form>
+{% endblock %}

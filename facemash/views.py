@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, Http404
 from facemash.models import FaceMash
 from django.views.decorators.csrf import csrf_protect
 from facemash.forms import GameForm
+from facemash.forms import FaceMashForm
 from facemash.models import Game
 
 @csrf_protect
@@ -15,10 +16,26 @@ def create_game(request):
             game = Game.objects.create(
                 title = form.cleaned_data['title']
             )
-            return HttpResponseRedirect('/create/success/' + str(game.id));
+            return HttpResponseRedirect('/facemash/add_facemash/' + str(game.id));
     form = GameForm()
     args = {'form' : form}
     return render(request, 'create_game.html', args)
+
+@csrf_protect
+def add_facemash(request, game_id):
+    if request.method == 'POST':
+        form = FaceMashForm(request.POST, request.FILES);
+        if form.is_valid():
+            gameid = int(game_id);
+            facemash = FaceMash.objects.create(
+                game = Game.objects.get(pk=gameid),
+                name = form.cleaned_data['name'],
+                photo = form.cleaned_data['picture']
+            )
+            return HttpResponseRedirect('/facemash/add_facemash/'+ str(gameid));
+    form = FaceMashForm()
+    args = {'form' : form}
+    return render(request, 'add_facemash.html', args)
 
 def play(request):
     """ The main-page view of facemash app. """
@@ -178,7 +195,7 @@ def ratings_calculator(request, winner_id, loser_id):
         w.save()
         l.save()
         # Redirect back to the Play page
-        return HttpResponseRedirect('/facemash/')
+        return HttpResponseRedirect('/facemash/play')
     except FaceMash.DoesNotExist:
         raise Http404
 
