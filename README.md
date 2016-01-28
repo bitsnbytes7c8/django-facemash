@@ -2,7 +2,6 @@
 
 ### A Facemash-like app as seen in the movie The Social Network.
 
-#### Check out the DEMO **[here](http://facemash.pythonanywhere.com)**.
 
 **Please note that this doesn't include `tests`.**
 
@@ -20,10 +19,9 @@ Install it like any other Django app.
 1. Extract `facemash` folder from `django-facemash` directory and keep it inside your project's directory.
 2. In your project's `settings.py` file, add `facemash` to `INSTALLED_APPS`.
 3. Run `python manage.py syncdb`.
-4. In your project's `urls.py` file, add `url(r'^facemash/', include('facemash.urls')),`.
+4. In your project's `urls.py` file, copy the urls.py added in the root folder.
 5. Visit `127.0.0.1:8000/facemash/` and see it in action.
-6. Next, visit admin site and add at least 2 players to start playing facemash.
-7. DO NOT add only 1 player. This will lead to an endless `while` loop which checks that a player should never be shown twice in a single page.
+6. DO NOT add only 1 player in any game. This will lead to an endless `while` loop which checks that a player should never be shown twice in a single page. (Intend to fix this by handling the error smoothly).
 
 ## Tested with
 
