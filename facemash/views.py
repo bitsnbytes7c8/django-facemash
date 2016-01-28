@@ -58,17 +58,20 @@ def play(request, gameid):
     """ The main-page view of facemash app. """
     try:
         game = Game.objects.get(pk=int(gameid))
+        gameCreator = game.creator
         gametitle = game.title;
         contestants = game.facemash_set.all();
+        if(len(contestants) < 2):
+            raise IndexError
         contestant_1 = random.choice(contestants)
         contestant_2 = random.choice(contestants)
         # A while loop to ensure that the contestants aren't same.
         while contestant_1 == contestant_2:
             contestant_2 = random.choice(contestants)
-        args = {'contestant_1': contestant_1, 'contestant_2': contestant_2, 'gameid':gameid, 'gametitle':gametitle, 'gameCreator':game.creator}
+        args = {'contestant_1': contestant_1, 'contestant_2': contestant_2, 'gameid':gameid, 'gametitle':gametitle, 'gameCreator':gameCreator}
     except IndexError:
         error = True
-        args = {'error': error, 'gameid':gameid}
+        args = {'error': error, 'gameid':gameid, 'gameCreator' : gameCreator}
     return render(request, 'facemash.html', args)
 
 def ratings_calculator(request, winner_id, loser_id, gameid):
@@ -229,7 +232,7 @@ def ratings_page(request, gameid):
         error = True;
         args = {'error':error, 'gameid':gameid}
         return render(request, 'ratings_page.html', args)
-        
+
     """ The ratings-page view. """
     game = Game.objects.get(pk=int(gameid))
     faces = game.facemash_set.all().order_by('-ratings')

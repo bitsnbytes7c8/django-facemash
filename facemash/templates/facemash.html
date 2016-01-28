@@ -2,9 +2,11 @@
 {% load staticfiles %}
     {% block content %}
         <div class="container" style="padding-top: 0px;margin-bottom:30px;">
-    {% if error %}
-        <h2> You haven't added any players yet</h2>
+    {% if error and request.user == gameCreator %}
+        <h2> You haven't added 2 players yet</h2>
         <h3> <a href="{% url 'add_facemash' gameid %}"> Click here </a> and add at least 2 players to start facemash</h3>
+    {% elif error %}
+        <h2> Oops! Looks like the games isn't properly created yet <h2>
     {% else %}
         <h3>{{gametitle}}</h3>
         <div class="main-info">
@@ -35,6 +37,8 @@
             {% block button %}<li><a class="cool-a" href="{% url 'ratings' gameid %}">View ratings</a></li>
                 <li><a class="cool-a" href="{% url 'add_facemash' gameid %}">Add photos</a></li>{% endblock button %}
         </ul>
+        <h3> Share this link to your friends and let them come and decide for you who/what is the best among the players you've put
+        in this game. Ratings will be visible only to you and only you'll be able to add players to the game. </h3>
     {% endif %}
     {% endblock content %}
 

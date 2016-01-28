@@ -18,12 +18,18 @@
     </div>
     <hr />
     <div class="footer">
-        <hr style="color:black"/>
         {% if request.user.is_authenticated %}
             <p style="text-align:center;"><a style="margin-left:5px" href="/logout">Logout</a></p>
         {% endif %}
         <br/>
-        <p style="text-align:center"> This is a site I built up from a facemash code (for single game) I found on github. Source code for this can be found at <a href="https://github.com/bitsnbytes7c8/django-facemash">here</a> </p>
+        <p style="text-align:center"> This is a site I built up from a facemash code (for single game) I found on github. Source code for this can be found at <a href="https://github.com/bitsnbytes7c8/django-facemash">here</a> </p> <br/>
+        <br/>
+        Built with sole inspiration from Mark Zuckerberg's Facemash.<br><br>
+		© Copyright 2016 <br><small>I do not own any copyright(s) to the pictures displayed/contained here.
+		All the pictures are property of their respective owners. If you own any of these pictures, kindly
+		<a href="http://twitter.com/arjun_sn">approach me</a> to take them down.<br>
+		The word Facemash or FACEMASH is NOT used as a brand name but as a noun to describe such a website
+		where you compare two persons and it is hereby noted that the aforementioned word as a brand name is a property of its owner.</small><br>
     </div>
 {% block js %}
 {% endblock js %}
