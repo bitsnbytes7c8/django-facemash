@@ -16,13 +16,23 @@ from django.contrib.auth.models import User
 @csrf_protect
 def create_game(request):
     if request.method == 'POST':
-        form = GameForm(request.POST);
+        form = GameForm(request.POST, request.FILES);
         if form.is_valid():
-            game = Game.objects.create(
+            faceMashGame = Game.objects.create(
                 title = form.cleaned_data['title'],
                 creator = request.user
             )
-            return HttpResponseRedirect('/facemash/add_facemash/' + str(game.id));
+            player1 = FaceMash.objects.create(
+                game = faceMashGame,
+                name = form.cleaned_data['player1Name'],
+                photo = form.cleaned_data['player1Picture']
+            )
+            player2 = FaceMash.objects.create(
+                game = faceMashGame,
+                name = form.cleaned_data['player2Name'],
+                photo = form.cleaned_data['player2Picture']
+            )
+            return render(request, 'success_add_facemash.html', {'gameid' : faceMashGame.id, 'gameTitle' : faceMashGame.title});
     form = GameForm()
     args = {'form' : form}
     return render(request, 'create_game.html', args)
@@ -49,7 +59,7 @@ def add_facemash(request, game_id):
                 name = form.cleaned_data['name'],
                 photo = form.cleaned_data['picture']
             )
-            return render(request, 'success_add_facemash.html', {'gameid' : gameid});
+            return render(request, 'success_add_facemash.html', {'gameid' : gameid, 'gameTitle' : game.title});
     form = FaceMashForm()
     args = {'form' : form}
     return render(request, 'add_facemash.html', args)

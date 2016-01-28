@@ -4,11 +4,15 @@ import re
 from django.contrib.auth.models import User
 
 class GameForm(forms.Form):
-    title = forms.CharField(label = _("Title"), widget = forms.TextInput(attrs=dict(required=True, max_length = 100)))
+    title = forms.CharField(label = _("Game Title"), widget = forms.TextInput(attrs=dict(required=True, max_length = 100)))
+    player1Name = forms.CharField(label = _("Player 1 Name"), widget = forms.TextInput(attrs=dict(required=True, max_length = 10)));
+    player1Picture = forms.ImageField(label = _("Player 1 Photo"));
+    player2Name = forms.CharField(label = _("Player 2 Name"), widget = forms.TextInput(attrs=dict(required=True, max_length = 10)));
+    player2Picture = forms.ImageField(label = _("Player 2 Photo"));
 
 class FaceMashForm(forms.Form):
-    name = forms.CharField(label = _("Title"), widget = forms.TextInput(attrs=dict(required=True, max_length = 10)));
-    picture = forms.ImageField();
+    name = forms.CharField(label = _("Player Name"), widget = forms.TextInput(attrs=dict(required=True, max_length = 10)));
+    picture = forms.ImageField(label = _("Player Photo"));
 
 class RegistrationForm(forms.Form):
     username = forms.RegexField(regex=r'^\w+$', widget=forms.TextInput(attrs=dict(required=True, max_length=30)), label=_("Username"),

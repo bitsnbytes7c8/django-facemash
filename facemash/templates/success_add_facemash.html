@@ -3,7 +3,7 @@
 {% block title %}Success{% endblock %}
 {% block head %}Success{% endblock %}
 {% block content %}
-    Successfully added player to facemash. <br/>
+    Successfully added player(s) to <a href="{% url "play" gameid %}">{{ gameTitle }}</a>. <br/>
     <a href="{% url "add_facemash" gameid %}"> Want to add more? </a> <br/>
     <a href="{% url "play" gameid %}"> Go to game </a> <br/>
 {% endblock %}
