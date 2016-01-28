@@ -21,7 +21,6 @@ Install it like any other Django app.
 3. Run `python manage.py syncdb`.
 4. In your project's `urls.py` file, copy the urls.py added in the root folder.
 5. Visit `127.0.0.1:8000/facemash/` and see it in action.
-6. DO NOT add only 1 player in any game. This will lead to an endless `while` loop which checks that a player should never be shown twice in a single page. (Intend to fix this by handling the error smoothly).
 
 ## Tested with
 
