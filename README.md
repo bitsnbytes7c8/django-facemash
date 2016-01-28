@@ -1,11 +1,13 @@
 ## django-facemash
 
-### A Facemash-like app as seen in the movie The Social Network.
+### A Facemash-like app as seen in the movie The Social Network, except with more features.
 
 
 **Please note that this doesn't include `tests`.**
 
 ## Description
+
+The site basically lets users register, login and create their own facemash game, which they can share and have people vote on. Games are public (whoever has the link), but ratings and ability to add players to the game are private (to whoever who created the game).
 
 1. **Programming language -** Python
 2. **Web framework -** Django
