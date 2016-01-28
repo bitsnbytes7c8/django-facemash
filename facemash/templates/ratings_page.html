@@ -3,27 +3,34 @@
 {% block banstyle %}style="min-width:960px;"{% endblock banstyle %}
 {% block constyle %}style="width:940px;"{% endblock constyle %}
 {% block content %}
-	<div class="container" style="width: 100%;">
-	{% for face in faces %}
-		<div class="rate-pic photo-holder">
-			<img src="{{ MEDIA_URL }}{{ face.photo }}" />
-			<br /><p style="font-size:14px;">Name: {{ face.name }}<br />
-			Ratings: {{ face.ratings|floatformat:2 }}</p>
+	{% if error %}
+		<h3> You don't have permissions to edit this game </h3>
+	{% else %}
+    	<h2> You are viewing ratings for game: {{ gameTitle }}</h2>
+		<div class="container" style="width: 100%;">
+			{% for face in faces %}
+			<div class="rate-pic photo-holder">
+				<img src="{{ MEDIA_URL }}{{ face.photo }}" />
+				<br /><p style="font-size:14px;">Name: {{ face.name }}<br />
+					Ratings: {{ face.ratings|floatformat:2 }}</p>
+			</div>
+			{% endfor %}
 		</div>
-	{% endfor %}
-	</div>
 
-	<div class="info">
-		<strong>How ratings are calculated</strong><br />
-		<small>Ratings are calculated using the <strong>Glicko-2 Algorithm</strong>.<br />
-		Each new player is given a base rating <em>r</em> of 1500, rating deviation, <em>RD</em> of 350 and volatility <em>&sigma;</em> of 0.06.
-		The system constant <em>&tau;</em> is set to 0.5 and it is also made sure that the <em>RD</em> of any player would never go below
-		30.<hr />
-		See the links below to learn more about Glicko-2 rating system:<br />
-		<a href="http://glicko.net/glicko.html" target="_blank">Glicko-2 website</a>
-		&nbsp;
-		<a href="http://en.wikipedia.org/wiki/Glicko_rating_system" target="_blank">Glicko-2 Wikipedia</a>
-		<br />
-	</div>
+		<a href="{% url 'play' gameid %}">Go back to playing</a>
+
+		<div class="info">
+			<strong>How ratings are calculated</strong><br />
+			<small>Ratings are calculated using the <strong>Glicko-2 Algorithm</strong>.<br />
+				Each new player is given a base rating <em>r</em> of 1500, rating deviation, <em>RD</em> of 350 and volatility <em>&sigma;</em> of 0.06.
+				The system constant <em>&tau;</em> is set to 0.5 and it is also made sure that the <em>RD</em> of any player would never go below
+				30.<hr />
+				See the links below to learn more about Glicko-2 rating system:<br />
+				<a href="http://glicko.net/glicko.html" target="_blank">Glicko-2 website</a>
+				&nbsp;
+				<a href="http://en.wikipedia.org/wiki/Glicko_rating_system" target="_blank">Glicko-2 Wikipedia</a>
+				<br />
+			</div>
+	{% endif %}
 {% endblock content %}
 {% block button %}<a class="cool-b" href="{% url 'play' gameid %}">&larr; Go back and play facemash</a>{% endblock button %}

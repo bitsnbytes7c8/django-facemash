@@ -30,10 +30,14 @@
         </div>
     {% endif %}
     </div>
+    {% if request.user == gameCreator %}
+        <ul class="nav">
+            {% block button %}<li><a class="cool-a" href="{% url 'ratings' gameid %}">View ratings</a></li>
+                <li><a class="cool-a" href="{% url 'add_facemash' gameid %}">Add photos</a></li>{% endblock button %}
+        </ul>
+    {% endif %}
     {% endblock content %}
-    <ul class="nav">
-        {% block button %}<li><a class="cool-a" href="{% url 'ratings' gameid %}">View ratings</a></li>{% endblock button %}
-    </ul>
+
     </div>
     <hr />
     <div class="footer">

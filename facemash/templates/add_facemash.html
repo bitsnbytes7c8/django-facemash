@@ -3,10 +3,15 @@
 {% block title %}Add FaceMash{% endblock %}
 {% block head %}Add FaceMash for Game{% endblock %}
 {% block content %}
-    <form enctype="multipart/form-data" method="post" action=".">{% csrf_token %}
-        <table border="0">
-            {{ form.as_table }}
-        </table>
-        <input type="submit" value="Add" />
-    </form>
+    {% if error %}
+        <h3> You don't have permissions to edit this game </h3>
+    {% else %}
+        <form enctype="multipart/form-data" method="post" action=".">{% csrf_token %}
+            <table border="0">
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Add" />
+        </form>
+    {% endif %}
+    <p style="text-align:center;"><a style="margin-left:5px" href="/logout">Logout</a></p>
 {% endblock %}

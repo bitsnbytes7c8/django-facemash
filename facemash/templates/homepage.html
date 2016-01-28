@@ -1,0 +1,15 @@
+{% extends 'facemash_base.html' %}
+
+{% block title %}FaceMash{% endblock %}
+{% block head %}FaceMash{% endblock %}
+{% block content %}
+    <h3> Your games: </h1>
+    <ul>
+        {% for game in games %}
+            <a href="{% url "play" game.id %}">{{ game.title }}</a>
+            <br/>
+        {% endfor %}
+        <br/>
+    </ul>
+    <a href="{% url "create_game" %}"> Create your new facemash game here </a>
+{% endblock %}

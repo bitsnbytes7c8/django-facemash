@@ -5,34 +5,51 @@ from django.http import HttpResponseRedirect, Http404
 from facemash.models import FaceMash
 from django.views.decorators.csrf import csrf_protect
 from facemash.forms import GameForm
-from facemash.forms import FaceMashForm
+from facemash.forms import FaceMashForm, RegistrationForm
 from facemash.models import Game
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+from django.template import RequestContext
+from django.contrib.auth.models import User
 
+@login_required
 @csrf_protect
 def create_game(request):
     if request.method == 'POST':
         form = GameForm(request.POST);
         if form.is_valid():
             game = Game.objects.create(
-                title = form.cleaned_data['title']
+                title = form.cleaned_data['title'],
+                creator = request.user
             )
             return HttpResponseRedirect('/facemash/add_facemash/' + str(game.id));
     form = GameForm()
     args = {'form' : form}
     return render(request, 'create_game.html', args)
 
+@login_required
 @csrf_protect
 def add_facemash(request, game_id):
+    gameid = int(game_id)
+    try:
+        game = Game.objects.get(pk=gameid)
+    except Game.DoesNotExist:
+        game = None
+
+    if (not game) or (request.user != game.creator):
+        error = True;
+        args = {'error':error, 'gameid':gameid}
+        return render(request, 'add_facemash.html', args)
+
     if request.method == 'POST':
         form = FaceMashForm(request.POST, request.FILES);
         if form.is_valid():
-            gameid = int(game_id);
             facemash = FaceMash.objects.create(
                 game = Game.objects.get(pk=gameid),
                 name = form.cleaned_data['name'],
                 photo = form.cleaned_data['picture']
             )
-            return HttpResponseRedirect('/facemash/add_facemash/'+ str(gameid));
+            return render(request, 'success_add_facemash.html', {'gameid' : gameid});
     form = FaceMashForm()
     args = {'form' : form}
     return render(request, 'add_facemash.html', args)
@@ -48,7 +65,7 @@ def play(request, gameid):
         # A while loop to ensure that the contestants aren't same.
         while contestant_1 == contestant_2:
             contestant_2 = random.choice(contestants)
-        args = {'contestant_1': contestant_1, 'contestant_2': contestant_2, 'gameid':gameid, 'gametitle':gametitle}
+        args = {'contestant_1': contestant_1, 'contestant_2': contestant_2, 'gameid':gameid, 'gametitle':gametitle, 'gameCreator':game.creator}
     except IndexError:
         error = True
         args = {'error': error, 'gameid':gameid}
@@ -201,9 +218,47 @@ def ratings_calculator(request, winner_id, loser_id, gameid):
     except FaceMash.DoesNotExist:
         raise Http404
 
-
+@login_required
 def ratings_page(request, gameid):
+    try:
+        game = Game.objects.get(pk=int(gameid))
+    except Game.DoesNotExist:
+        game = None
+
+    if (not game) or (request.user != game.creator):
+        error = True;
+        args = {'error':error, 'gameid':gameid}
+        return render(request, 'ratings_page.html', args)
+        
     """ The ratings-page view. """
     game = Game.objects.get(pk=int(gameid))
     faces = game.facemash_set.all().order_by('-ratings')
-    return render(request, "ratings_page.html", {'faces' : faces, 'gameid' : gameid})
+    return render(request, "ratings_page.html", {'faces' : faces, 'gameid' : gameid, 'gameTitle' : game.title})
+
+@csrf_protect
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(
+                username = form.cleaned_data['username'],
+                password = form.cleaned_data['password1'],
+                email = form.cleaned_data['email']
+            )
+            return HttpResponseRedirect('/register/success/')
+    else:
+        form = RegistrationForm()
+    variables = RequestContext(request, {'form': form})
+    return render(request, 'register.html', variables)
+
+def logout_page(request):
+    logout(request)
+    return HttpResponseRedirect("/facemash")
+
+def register_success(request):
+    return render(request, 'success.html')
+
+@login_required
+def home_page(request):
+    games = request.user.game_set.all()
+    return render( request, 'homepage.html', {'user':request.user, 'games':games})

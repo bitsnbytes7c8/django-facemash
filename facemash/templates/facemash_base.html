@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="banner" {% block banstyle %}{% endblock banstyle %}>
-        <h1><a href="#" style="color:#fff;">FACEMASH</a></h1>
+        <h1><a href="{% url 'home_page' %}" style="color:#fff;">FACEMASH</a></h1>
     </div>
     <div class="container" {% block constyle %}{% endblock constyle %}>
     {% block content %}
@@ -19,9 +19,12 @@
     <hr />
     <div class="footer">
         <hr style="color:black"/>
+        {% if request.user.is_authenticated %}
+            <p style="text-align:center;"><a style="margin-left:5px" href="/logout">Logout</a></p>
+        {% endif %}
+        <br/>
         <p style="text-align:center"> This is a site I built up from a facemash code (for single game) I found on github. Source code for this can be found at <a href="https://github.com/bitsnbytes7c8/django-facemash">here</a> </p>
     </div>
-
 {% block js %}
 {% endblock js %}
 </body>

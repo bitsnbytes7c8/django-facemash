@@ -1,0 +1,9 @@
+{% extends 'facemash_base.html' %}
+
+{% block title %}Success{% endblock %}
+{% block head %}Success{% endblock %}
+{% block content %}
+    Successfully added player to facemash. <br/>
+    <a href="{% url "add_facemash" gameid %}"> Want to add more? </a> <br/>
+    <a href="{% url "play" gameid %}"> Go to game </a> <br/>
+{% endblock %}
