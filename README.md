@@ -1,6 +1,6 @@
 ## django-facemash
 
-### A Facemash-like app as seen in the movie The Social Network, except with more features.
+### A Facemash-like app as seen in the movie The Social Network, except with more features. Try out the site: http://bitsnbytes.pythonanywhere.com/
 
 
 **Please note that this doesn't include `tests`.**
